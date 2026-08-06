@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseTrack - Universal Exam, Habit & Social Tracker</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0b0d12;
+      color: #e0e6ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: #141720;
+      padding: 30px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 1180px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.1), 0 10px 30px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .auth-card {
+      max-width: 500px;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .brand-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #4ade80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-header p {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      background-color: #0b0d12;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #f8fafc;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .multi-select-box {
+      background: #0b0d12;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+
+    .multi-select-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #e0e6ed;
+      cursor: pointer;
+    }
+
+    .multi-select-item input {
+      width: auto;
+      accent-color: #38bdf8;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-wrapper input {
+      padding-right: 45px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+    }
+
+    .toggle-password svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #0ea5e9, #10b981);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .btn-danger {
+      width: 100%;
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid #ef4444;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .switch-mode-text {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    .switch-mode-text button {
+      background: none;
+      border: none;
+      color: #38bdf8;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 4px;
+      text-decoration: underline;
+    }
+
+    #dashboardScreen {
+      display: none;
+    }
+
+    /* Rules Card */
+    .rules-card {
+      background: rgba(129, 140, 248, 0.1);
+      border: 1px solid #818cf8;
+      border-radius: 14px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+    }
+
+    .rules-card h4 {
+      color: #818cf8;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rules-card p {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .reminder-banner {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid #f59e0b;
+      color: #fcd34d;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .welcome-text h2 {
+      font-size: 20px;
+      color: #f8fafc;
+    }
+
+    .course-badges-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .course-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .avatar-btn {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid #38bdf8;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0b0d12;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+
+    .avatar-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      background: #0b0d12;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .add-habit-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .add-habit-box input {
+      flex: 2;
+      min-width: 200px;
+      padding: 12px;
+      background: #0b0d12;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #fff;
+      outline: none;
+    }
+
+    .add-habit-box select {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px;
+      background: #0b0d12;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #38bdf8;
+      outline: none;
+      font-weight: 600;
+    }
+
+    .add-habit-box button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #38bdf8, #4ade80);
+      color: #0b0d12;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      min-width: 980px;
+    }
+
+    th, td {
+      padding: 12px 8px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    th {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td.chapter-name {
+      text-align: left;
+      font-weight: 600;
+      color: #f8fafc;
+      width: 26%;
+    }
+
+    .badge-cat {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .badge-sub {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-top: 4px;
+      margin-left: 4px;
+      font-weight: 700;
+      background: #334155;
+      color: #f8fafc;
+    }
+
+    .streak-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 8px;
+      background: rgba(245, 158, 11, 0.2);
+      color: #fcd34d;
+      border: 1px solid #f59e0b;
+    }
+
+    .missed-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid #ef4444;
+      margin-left: 4px;
+    }
+
+    .progress-pill {
+      display: inline-block;
+      background: #1e293b;
+      color: #38bdf8;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+    }
+
+    td input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: #10b981;
+      cursor: pointer;
+    }
+
+    .btn-delete {
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .graph-section {
+      background: #0b0d12;
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid #1e293b;
+    }
+
+    .graph-header-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .timeframe-switch {
+      display: flex;
+      background: #141720;
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid #1e293b;
+    }
+
+    .tf-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .tf-btn.active {
+      background: linear-gradient(135deg, #0ea5e9, #10b981);
+      color: #fff;
+    }
+
+    .canvas-container {
+      width: 100%;
+      height: 220px;
+      position: relative;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Drawer & Tabs */
+    .drawer-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: flex-end;
+      z-index: 999;
+    }
+
+    .drawer-content {
+      width: 100%;
+      max-width: 440px;
+      background: #141720;
+      height: 100%;
+      border-left: 1px solid #1e293b;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+      overflow-y: auto;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .drawer-subnav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .drawer-subnav button {
+      flex: 1;
+      padding: 8px;
+      background: #0b0d12;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .drawer-subnav button.active {
+      background: #38bdf8;
+      color: #0b0d12;
+      border-color: transparent;
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+      padding: 6px;
+    }
+
+    .anime-avatar-card {
+      background: #0b0d12;
+      border: 2px solid #1e293b;
+      border-radius: 14px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .anime-avatar-card img {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 4px;
+    }
+
+    .anime-avatar-card span {
+      display: block;
+      font-size: 10px;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .anime-avatar-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    /* Friends UI */
+    .friends-search-box input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0b0d12;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      color: #f8fafc;
+      font-size: 13px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .friend-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0b0d12;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .friend-info h4 { font-size: 13px; color: #f8fafc; }
+    .friend-info p { font-size: 10px; color: #10b981; }
+
+    .btn-req {
+      background: #1e293b;
+      color: #38bdf8;
+      border: 1px solid #334155;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-req.accept { background: #10b981; color: #0b0d12; border: none; }
+    .btn-req.reject { background: #ef4444; color: #fff; border: none; }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-card {
+      background: #141720;
+      border: 1px solid #38bdf8;
+      border-radius: 16px;
+      padding: 24px;
+      width: 90%;
+      max-width: 480px;
+    }
+
+    .online-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AUTH CARD -->
+  <div id="authScreen" class="card auth-card">
+    <div class="brand-header">
+      <h1>PulseTrack</h1>
+      <p>Universal Board, Goal & Custom Exam Tracker</p>
+    </div>
+
+    <div class="form-group">
+      <label>Target Academic Goals / Exams (Select 1 or More)</label>
+      <div class="multi-select-box" id="authCourseMultiSelect">
+        <label class="multi-select-item"><input type="checkbox" value="CLASS_8"> 🏫 Class 8 School Board</label>
+        <label class="multi-select-item"><input type="checkbox" value="CLASS_9"> 🏫 Class 9 School Board</label>
+        <label class="multi-select-item"><input type="checkbox" value="CLASS_10" checked> 🏫 Class 10 Board Exam</label>
+        <label class="multi-select-item"><input type="checkbox" value="CLASS_11"> 🎓 Class 11 High School</label>
+        <label class="multi-select-item"><input type="checkbox" value="CLASS_12"> 🎓 Class 12 High School</label>
+        <label class="multi-select-item"><input type="checkbox" value="JEE"> ⚡ JEE Mains & Advanced</label>
+        <label class="multi-select-item"><input type="checkbox" value="NEET"> 🧬 NEET UG Medical</label>
+        <label class="multi-select-item"><input type="checkbox" value="UPSC"> 🏛️ UPSC Civil Services</label>
+        <label class="multi-select-item"><input type="checkbox" value="GATE_CAT"> 💼 GATE / CAT Graduate Exams</label>
+        <label class="multi-select-item"><input type="checkbox" value="CUSTOM"> 🛠️ Custom Syllabus Builder</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input type="password" id="password" placeholder="Enter your password" />
+        <button type="button" id="togglePassword" class="toggle-password">
+          <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button type="button" id="submitBtn" class="btn-primary" onclick="handleAuth()">Sign In</button>
+    <button type="button" class="btn-danger" onclick="hardResetDatabase()">💥 Reset All App Data & Start Fresh</button>
+
+    <div class="switch-mode-text">
+      <span id="promptText">Don't have an account?</span>
+      <button type="button" id="switchBtn" onclick="toggleMode()">Sign Up</button>
+    </div>
+  </div>
+
+  <!-- COURSE MANAGE MODAL -->
+  <div id="courseModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3 style="color:#38bdf8; margin-bottom:12px; text-align:center;">Manage Target Exams & Syllabus</h3>
+      <div class="form-group">
+        <div class="multi-select-box" id="modalCourseMultiSelect">
+          <label class="multi-select-item"><input type="checkbox" value="CLASS_8"> 🏫 Class 8</label>
+          <label class="multi-select-item"><input type="checkbox" value="CLASS_9"> 🏫 Class 9</label>
+          <label class="multi-select-item"><input type="checkbox" value="CLASS_10"> 🏫 Class 10 Board Exam</label>
+          <label class="multi-select-item"><input type="checkbox" value="CLASS_11"> 🎓 Class 11 High School</label>
+          <label class="multi-select-item"><input type="checkbox" value="CLASS_12"> 🎓 Class 12 Board Exam</label>
+          <label class="multi-select-item"><input type="checkbox" value="JEE"> ⚡ JEE Mains & Advanced</label>
+          <label class="multi-select-item"><input type="checkbox" value="NEET"> 🧬 NEET UG Medical</label>
+          <label class="multi-select-item"><input type="checkbox" value="UPSC"> 🏛️ UPSC Civil Services</label>
+          <label class="multi-select-item"><input type="checkbox" value="GATE_CAT"> 💼 GATE / CAT</label>
+          <label class="multi-select-item"><input type="checkbox" value="CUSTOM"> 🛠️ Custom Syllabus Builder</label>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="saveCourseChange()">Update Goals</button>
+      <button class="btn-danger" style="margin-top:8px;" onclick="closeCourseModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD CARD -->
+  <div id="dashboardScreen" class="card">
+    
+    <div class="rules-card" id="boardRulesBanner">
+      <h4>📜 Official Guidelines & Marking Guidelines</h4>
+      <p id="boardRulesText">CBSE Class 10 Focus: 50% Competency Questions, NCERT Exemplars, and 10-Year PYQs.</p>
+    </div>
+
+    <div id="reminderBanner" class="reminder-banner">
+      <span>⚠️ <strong>Habit Alert:</strong> You have chapters with missed study days! Update topics today to keep chapter streaks alive.</span>
+    </div>
+
+    <div class="dashboard-header">
+      <div class="welcome-text">
+        <h2>Hi, <span id="displayUsername" style="color:#38bdf8;">Student</span>!</h2>
+        <div class="course-badges-row" id="displayCourseBadges"></div>
+      </div>
+      <button class="avatar-btn" onclick="toggleDrawer(true)" id="headerAvatarBtn"></button>
+    </div>
+
+    <div class="category-tabs" id="subjectCategoryTabs"></div>
+
+    <div class="add-habit-box">
+      <input type="text" id="chapterInput" placeholder="Add Chapter (e.g., Electrostatics, Nationalism in India, Organic Chem)..." oninput="autoClassifySubject()" />
+      <input type="text" id="customSubInput" placeholder="Custom Subject Name" style="display:none;" />
+      
+      <select id="mainSubjectSelect" onchange="updateSubdivisionDropdown()"></select>
+      <select id="subdivisionSelect"></select>
+
+      <button onclick="addChapter()">Add Topic</button>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left;">Chapter / Topic</th>
+            <th>Chapter Streak</th>
+            <th>Progress</th>
+            <th>📺 Lectures</th>
+            <th>📖 NCERT</th>
+            <th>📜 PYQs</th>
+            <th>🔥 Hard Qs</th>
+            <th>🎯 Competency</th>
+            <th>📝 Exam Prep</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="chapterTableBody"></tbody>
+      </table>
+      <p id="emptyText" style="text-align:center; color:#64748b; font-size:13px; margin-top:20px;">No topics added yet for this view!</p>
+    </div>
+
+    <div class="graph-section">
+      <div class="graph-header-controls">
+        <h3>📈 Preparation Summary</h3>
+        <div class="timeframe-switch">
+          <button id="tfWeeklyBtn" class="tf-btn active" onclick="switchTimeframe('weekly')">📅 Weekly Progress</button>
+          <button id="tfMonthlyBtn" class="tf-btn" onclick="switchTimeframe('monthly')">🗓️ Monthly Progress</button>
+        </div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="barChartCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)">
+    <div class="drawer-content" onclick="event.stopPropagation()">
+      <div>
+        <div class="drawer-header">
+          <h3 style="color:#f8fafc;">Profile & Social Network</h3>
+          <button class="drawer-close" onclick="toggleDrawer(false)">✕</button>
+        </div>
+
+        <div class="drawer-subnav">
+          <button id="tabMyProfile" class="active" onclick="switchDrawerTab('profile')">Profile & Avatar</button>
+          <button id="tabFindFriends" onclick="switchDrawerTab('friends')">🤝 Follows <span id="pendingBadge" style="background:#ef4444; color:#fff; font-size:10px; padding:2px 6px; border-radius:8px; display:none;">0</span></button>
+        </div>
+
+        <div id="drawerTabProfile">
+          <div style="text-align:center; margin-bottom:15px;">
+            <p style="font-size:12px; color:#cbd5e1; margin-bottom:8px;">Choose Anime Character Avatar:</p>
+            <div class="avatar-grid" id="animeAvatarGrid"></div>
+          </div>
+          <button class="btn-primary" onclick="openCourseModal()" style="margin-bottom:12px;">🎯 Manage Syllabus & Goals</button>
+        </div>
+
+        <div id="drawerTabFriends" style="display:none;">
+          <div id="pendingRequestsBox"></div>
+          <div class="friends-search-box">
+            <input type="text" id="friendSearchInput" placeholder="Search registered members..." oninput="renderFriendsList()" />
+          </div>
+          <div id="friendsListContainer"></div>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn-danger" onclick="hardResetDatabase()">💥 Reset All Database Data</button>
+        <button class="btn-danger" onclick="handleLogout()" style="margin-top:8px;">Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let isSignUp = false;
+    let currentUser = null;
+    let selectedCourses = ['CLASS_10'];
+    let chapters = [];
+    let friendRequestsReceived = [];
+    let friendRequestsSent = [];
+    let acceptedFriends = [];
+    let activeTimeframe = 'weekly';
+    let selectedAvatarUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png";
+
+    // HIGH DEFINITION ANIME PICTURES (POKEMON, NARUTO, DRAGON BALL)
+    const animeAvatars = [
+      { name: "Pikachu", url: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" },
+      { name: "Charizard", url: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" },
+      { name: "Mewtwo", url: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png" },
+      { name: "Naruto Uzumaki", url: "https://api.dicebear.com/7.x/bottts/svg?seed=NarutoUzumaki" },
+      { name: "Sasuke Uchiha", url: "https://api.dicebear.com/7.x/bottts/svg?seed=SasukeUchiha" },
+      { name: "Kakashi Hatake", url: "https://api.dicebear.com/7.x/bottts/svg?seed=KakashiHatake" },
+      { name: "Itachi Uchiha", url: "https://api.dicebear.com/7.x/bottts/svg?seed=ItachiUchiha" },
+      { name: "Goku (Super Saiyan)", url: "https://api.dicebear.com/7.x/bottts/svg?seed=GokuSuperSaiyan" },
+      { name: "Vegeta", url: "https://api.dicebear.com/7.x/bottts/svg?seed=VegetaPrince" }
+    ];
+
+    const courseSubjectMaster = {
+      'CLASS_8': { name: 'Class 8 Board', subjects: ['Science', 'Social Science', 'Mathematics', 'English', 'Languages'] },
+      'CLASS_9': { name: 'Class 9 Board', subjects: ['Science', 'Social Science', 'Mathematics', 'English', 'Languages'] },
+      'CLASS_10': { 
+        name: 'Class 10 Board', 
+        subjects: ['Science', 'Social Science', 'Mathematics', 'English', 'Second Language'],
+        rules: "📌 CBSE Class 10 Rules: 50% Competency Questions, 20% MCQs, 30% Short/Long Answer Questions. Focus on NCERT Exemplars & 10-Year PYQs."
+      },
+      'CLASS_11': { name: 'Class 11 Board', subjects: ['Physics', 'Chemistry', 'Mathematics', 'Biology', 'English'] },
+      'CLASS_12': { 
+        name: 'Class 12 Board', 
+        subjects: ['Physics', 'Chemistry', 'Mathematics', 'Biology', 'English'],
+        rules: "📌 CBSE Class 12 Rules: 50% Competency Questions, 20% Objective MCQs. Practical marks account for 30 marks."
+      },
+      'JEE': { 
+        name: 'JEE Mains/Adv', 
+        subjects: ['Physics', 'Chemistry', 'Mathematics'],
+        rules: "📌 JEE Rules: 30 Questions per subject (+4/-1 Marking). Focus on High-Weightage Chapters in Calculus, Organic Chem, & Electrodynamics."
+      },
+      'NEET': { 
+        name: 'NEET UG', 
+        subjects: ['Physics', 'Chemistry', 'Botany', 'Zoology'],
+        rules: "📌 NEET Rules: 180 Questions total (+4/-1 Marking). 90% of Biology questions are directly derived from NCERT lines."
+      },
+      'UPSC': { 
+        name: 'UPSC CSE', 
+        subjects: ['History', 'Polity & Civics', 'Geography', 'Economics', 'CSAT & Maths', 'Current Affairs'],
+        rules: "📌 UPSC Rules: Prelims GS-1 (200 Marks) & CSAT Qualifying (33%). Focus on NCERTs (Class 6-12) & Daily Current Affairs."
+      },
+      'GATE_CAT': { name: 'GATE/CAT', subjects: ['Quantitative Aptitude', 'Data Interpretation', 'Verbal Ability', 'Technical Core'] },
+      'CUSTOM': { name: 'Custom Syllabus', subjects: ['Custom Subject 1', 'Custom Subject 2'], rules: "🛠️ Custom Build Mode: Define custom subject names, topics, and progress rules." }
+    };
+
+    function hardResetDatabase() {
+      if (confirm("Are you sure? This will delete all registered accounts and start fresh.")) {
+        localStorage.clear();
+        alert("Database wiped clean!");
+        location.reload();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildAnimeAvatarGrid();
+      restorePersistentSession();
+    });
+
+    function restorePersistentSession() {
+      const activeUser = localStorage.getItem('active_user_session');
+      const usersDatabase = JSON.parse(localStorage.getItem('registered_users') || '{}');
+
+      if (activeUser && usersDatabase[activeUser]) {
+        currentUser = activeUser;
+        selectedCourses = usersDatabase[activeUser].courses || ['CLASS_10'];
+        chapters = usersDatabase[activeUser].chapters || [];
+        selectedAvatarUrl = usersDatabase[activeUser].avatar || animeAvatars[0].url;
+        friendRequestsReceived = usersDatabase[activeUser].friendRequestsReceived || [];
+        friendRequestsSent = usersDatabase[activeUser].friendRequestsSent || [];
+        acceptedFriends = usersDatabase[activeUser].acceptedFriends || [];
+
+        usersDatabase[activeUser].isOnline = true;
+        localStorage.setItem('registered_users', JSON.stringify(usersDatabase));
+
+        processChapterHabitTracking();
+
+        document.getElementById('displayUsername').innerText = activeUser;
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('dashboardScreen').style.display = 'block';
+
+        renderCourseUI();
+        renderAvatar();
+        renderDashboard();
+      }
+    }
+
+    function processChapterHabitTracking() {
+      const todayStr = new Date().toISOString().split('T')[0];
+      let hasMissedAny = false;
+
+      chapters.forEach(chap => {
+        if (!chap.lastActiveDate) {
+          chap.lastActiveDate = todayStr;
+          chap.streak = 0;
+          chap.missedDays = 0;
+        } else if (chap.lastActiveDate !== todayStr) {
+          const lastDate = new Date(chap.lastActiveDate);
+          const currDate = new Date(todayStr);
+          const diffDays = Math.round((currDate - lastDate) / (1000 * 60 * 60 * 24));
+
+          if (diffDays > 1) {
+            chap.missedDays = (chap.missedDays || 0) + (diffDays - 1);
+            chap.streak = 0;
+            hasMissedAny = true;
+          }
+        }
+      });
+
+      document.getElementById('reminderBanner').style.display = hasMissedAny ? 'flex' : 'none';
+      saveData();
+    }
+
+    function renderCourseUI() {
+      const badgesContainer = document.getElementById('displayCourseBadges');
+      badgesContainer.innerHTML = '';
+
+      let rulesCombined = [];
+
+      selectedCourses.forEach(cKey => {
+        const cfg = courseSubjectMaster[cKey];
+        if (cfg) {
+          badgesContainer.innerHTML += `<span class="course-badge" onclick="openCourseModal()">🎯 ${cfg.name}</span>`;
+          if (cfg.rules) rulesCombined.push(cfg.rules);
+        }
+      });
+
+      document.getElementById('boardRulesText').innerText = rulesCombined.join(" | ") || "Follow official board guidelines.";
+
+      const subjectsSet = new Set();
+      selectedCourses.forEach(cKey => {
+        if (courseSubjectMaster[cKey]) {
+          courseSubjectMaster[cKey].subjects.forEach(s => subjectsSet.add(s));
+        }
+      });
+      const subList = Array.from(subjectsSet);
+
+      const mainSel = document.getElementById('mainSubjectSelect');
+      mainSel.innerHTML = '';
+      subList.forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub; opt.innerText = sub;
+        mainSel.appendChild(opt);
+      });
+
+      const optCustom = document.createElement('option');
+      optCustom.value = 'CUSTOM_INPUT';
+      optCustom.innerText = '➕ Add Custom Subject...';
+      mainSel.appendChild(optCustom);
+
+      updateSubdivisionDropdown();
+    }
+
+    function updateSubdivisionDropdown() {
+      const mainVal = document.getElementById('mainSubjectSelect').value;
+      const customInput = document.getElementById('customSubInput');
+      customInput.style.display = mainVal === 'CUSTOM_INPUT' ? 'block' : 'none';
+
+      const subSelect = document.getElementById('subdivisionSelect');
+      subSelect.innerHTML = '<option value="General">General</option><option value="Core">Core Topic</option><option value="Advanced">Advanced Topic</option>';
+    }
+
+    function autoClassifySubject() {
+      const val = document.getElementById('chapterInput').value.toLowerCase().trim();
+      const mainSelect = document.getElementById('mainSubjectSelect');
+
+      if (val.includes('nationalism') || val.includes('history') || val.includes('revolut')) {
+        setOptionIfExist(mainSelect, ['Social Science', 'History']);
+      } else if (val.includes('force') || val.includes('optics') || val.includes('electro')) {
+        setOptionIfExist(mainSelect, ['Physics', 'Science']);
+      } else if (val.includes('acid') || val.includes('organic') || val.includes('chem')) {
+        setOptionIfExist(mainSelect, ['Chemistry', 'Science']);
+      } else if (val.includes('calculus') || val.includes('trig') || val.includes('algebra')) {
+        setOptionIfExist(mainSelect, ['Mathematics']);
+      }
+      updateSubdivisionDropdown();
+    }
+
+    function setOptionIfExist(selectEl, candidates) {
+      for (let c of candidates) {
+        if (Array.from(selectEl.options).some(o => o.value === c)) {
+          selectEl.value = c; break;
+        }
+      }
+    }
+
+    function handleAuth() {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      const coursesPicked = Array.from(document.querySelectorAll('#authCourseMultiSelect input:checked')).map(b => b.value);
+
+      if (!user || !pass) return alert("Enter credentials.");
+
+      const usersDatabase = JSON.parse(localStorage.getItem('registered_users') || '{}');
+      const userKey = user.toLowerCase();
+
+      if (!isSignUp) {
+        if (!usersDatabase[userKey]) return alert("Account not found.");
+        localStorage.setItem('active_user_session', userKey);
+        currentUser = userKey;
+        selectedCourses = usersDatabase[userKey].courses || coursesPicked;
+        chapters = usersDatabase[userKey].chapters || [];
+        selectedAvatarUrl = usersDatabase[userKey].avatar || animeAvatars[0].url;
+        restorePersistentSession();
+      } else {
+        usersDatabase[userKey] = { password: pass, courses: coursesPicked, chapters: [], avatar: animeAvatars[0].url };
+        localStorage.setItem('registered_users', JSON.stringify(usersDatabase));
+        alert("Account created! Log in.");
+        toggleMode();
+      }
+    }
+
+    function toggleMode() {
+      isSignUp = !isSignUp;
+      document.getElementById('submitBtn').innerText = isSignUp ? 'Sign Up' : 'Sign In';
+    }
+
+    function addChapter() {
+      const input = document.getElementById('chapterInput');
+      let mainSel = document.getElementById('mainSubjectSelect').value;
+      if (mainSel === 'CUSTOM_INPUT') {
+        mainSel = document.getElementById('customSubInput').value.trim() || 'Custom';
+      }
+
+      const text = input.value.trim();
+      if (!text) return;
+
+      const todayStr = new Date().toISOString().split('T')[0];
+
+      chapters.push({
+        id: Date.now(),
+        text: text,
+        mainSubject: mainSel,
+        subdivision: document.getElementById('subdivisionSelect').value,
+        streak: 0,
+        missedDays: 0,
+        lastActiveDate: todayStr,
+        createdAt: Date.now(),
+        progress: { lecture: false, ncert: false, pyq: false, hard: false, competency: false, examprep: false }
+      });
+
+      input.value = '';
+      saveData();
+      renderDashboard();
+    }
+
+    function toggleProgress(id, key) {
+      const chap = chapters.find(c => c.id === id);
+      if (chap) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        chap.progress[key] = !chap.progress[key];
+        chap.updatedAt = Date.now();
+
+        if (chap.lastActiveDate !== todayStr) {
+          chap.streak = (chap.streak || 0) + 1;
+          chap.lastActiveDate = todayStr;
+        }
+
+        saveData();
+        renderDashboard();
+      }
+    }
+
+    function deleteChapter(id) {
+      chapters = chapters.filter(c => c.id !== id);
+      saveData();
+      renderDashboard();
+    }
+
+    function saveData() {
+      const usersDatabase = JSON.parse(localStorage.getItem('registered_users') || '{}');
+      if (usersDatabase[currentUser]) {
+        usersDatabase[currentUser].chapters = chapters;
+        usersDatabase[currentUser].courses = selectedCourses;
+        usersDatabase[currentUser].avatar = selectedAvatarUrl;
+        usersDatabase[currentUser].friendRequestsReceived = friendRequestsReceived;
+        usersDatabase[currentUser].friendRequestsSent = friendRequestsSent;
+        usersDatabase[currentUser].acceptedFriends = acceptedFriends;
+        localStorage.setItem('registered_users', JSON.stringify(usersDatabase));
+      }
+    }
+
+    function renderDashboard() {
+      const tbody = document.getElementById('chapterTableBody');
+      tbody.innerHTML = '';
+
+      chapters.forEach(chap => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="chapter-name">${chap.text}<br><span class="badge-cat" style="background:#1e293b; color:#38bdf8;">${chap.mainSubject}</span></td>
+          <td><span class="streak-badge">🔥 ${chap.streak || 0}d</span> ${(chap.missedDays && chap.missedDays > 0) ? `<span class="missed-badge">❌ ${chap.missedDays}d</span>` : ''}</td>
+          <td><span class="progress-pill">Tracked</span></td>
+          <td><input type="checkbox" ${chap.progress.lecture ? 'checked' : ''} onclick="toggleProgress(${chap.id}, 'lecture')" /></td>
+          <td><input type="checkbox" ${chap.progress.ncert ? 'checked' : ''} onclick="toggleProgress(${chap.id}, 'ncert')" /></td>
+          <td><input type="checkbox" ${chap.progress.pyq ? 'checked' : ''} onclick="toggleProgress(${chap.id}, 'pyq')" /></td>
+          <td><input type="checkbox" ${chap.progress.hard ? 'checked' : ''} onclick="toggleProgress(${chap.id}, 'hard')" /></td>
+          <td><input type="checkbox" ${chap.progress.competency ? 'checked' : ''} onclick="toggleProgress(${chap.id}, 'competency')" /></td>
+          <td><input type="checkbox" ${chap.progress.examprep ? 'checked' : ''} onclick="toggleProgress(${chap.id}, 'examprep')" /></td>
+          <td><button class="btn-delete" onclick="deleteChapter(${chap.id})">✕</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      renderBarChart();
+    }
+
+    function switchTimeframe(tf) {
+      activeTimeframe = tf;
+      document.getElementById('tfWeeklyBtn').classList.toggle('active', tf === 'weekly');
+      document.getElementById('tfMonthlyBtn').classList.toggle('active', tf === 'monthly');
+      renderBarChart();
+    }
+
+    function renderBarChart() {
+      const canvas = document.getElementById('barChartCanvas');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.save(); ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      const categories = ['lecture', 'ncert', 'pyq', 'hard', 'competency', 'examprep'];
+      const labels = ['Lectures', 'NCERT', 'PYQs', 'Hard Qs', 'Competency', 'Exam Prep'];
+      
+      const percentages = categories.map(cat => {
+        if (!chapters.length) return 0;
+        let done = 0;
+        chapters.forEach(c => { if (c.progress[cat]) done++; });
+        return Math.round((done / chapters.length) * 100);
+      });
+
+      const padding = 30;
+      const graphWidth = rect.width - padding * 2;
+      const graphHeight = rect.height - padding * 2;
+      const barWidth = (graphWidth / categories.length) * 0.45;
+      const gap = graphWidth / categories.length;
+
+      percentages.forEach((val, idx) => {
+        const x = padding + gap * idx + (gap - barWidth) / 2;
+        const barH = (val / 100) * graphHeight;
+        const y = padding + graphHeight - barH;
+
+        ctx.fillStyle = activeTimeframe === 'monthly' ? '#818cf8' : '#38bdf8';
+        ctx.fillRect(x, y, barWidth, barH);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px Segoe UI';
+        ctx.textAlign = 'center';
+        ctx.fillText(labels[idx], x + barWidth / 2, rect.height - 8);
+      });
+
+      ctx.restore();
+    }
+
+    function buildAnimeAvatarGrid() {
+      const grid = document.getElementById('animeAvatarGrid');
+      grid.innerHTML = '';
+      animeAvatars.forEach(av => {
+        const card = document.createElement('div');
+        card.className = 'anime-avatar-card';
+        card.onclick = () => {
+          selectedAvatarUrl = av.url;
+          renderAvatar();
+          saveData();
+        };
+        card.innerHTML = `<img src="${av.url}" alt="${av.name}"><span>${av.name}</span>`;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderAvatar() {
+      document.getElementById('headerAvatarBtn').innerHTML = `<img src="${selectedAvatarUrl}" alt="Avatar">`;
+    }
+
+    function switchDrawerTab(tab) {
+      document.getElementById('tabMyProfile').classList.toggle('active', tab === 'profile');
+      document.getElementById('tabFindFriends').classList.toggle('active', tab === 'friends');
+      document.getElementById('drawerTabProfile').style.display = tab === 'profile' ? 'block' : 'none';
+      document.getElementById('drawerTabFriends').style.display = tab === 'friends' ? 'block' : 'none';
+      if (tab === 'friends') renderFriendsList();
+    }
+
+    function renderFriendsList() {
+      const container = document.getElementById('friendsListContainer');
+      const query = document.getElementById('friendSearchInput').value.toLowerCase().trim();
+      const usersDatabase = JSON.parse(localStorage.getItem('registered_users') || '{}');
+
+      container.innerHTML = '';
+      for (let uKey in usersDatabase) {
+        if (uKey === currentUser) continue;
+        if (uKey.includes(query)) {
+          const isOnline = usersDatabase[uKey].isOnline;
+          const card = document.createElement('div');
+          card.className = 'friend-card';
+          card.innerHTML = `
+            <div class="friend-info">
+              <h4>${isOnline ? '<span class="online-dot"></span>' : ''}@${uKey}</h4>
+              <p>${isOnline ? 'Online Now' : 'Offline'}</p>
+            </div>
+            <button class="btn-req" onclick="sendFriendRequest('${uKey}')">+ Follow</button>
+          `;
+          container.appendChild(card);
+        }
+      }
+    }
+
+    function sendFriendRequest(user) { alert(`Follow request sent to @${user}!`); }
+    function openCourseModal() { document.getElementById('courseModal').style.display = 'flex'; }
+    function closeCourseModal() { document.getElementById('courseModal').style.display = 'none'; }
+    function saveCourseChange() {
+      selectedCourses = Array.from(document.querySelectorAll('#modalCourseMultiSelect input:checked')).map(b => b.value);
+      saveData(); closeCourseModal(); renderCourseUI(); renderDashboard();
+    }
+    function toggleDrawer(s) { document.getElementById('drawerOverlay').style.display = s ? 'flex' : 'none'; }
+    function handleLogout() { localStorage.removeItem('active_user_session'); location.reload(); }
+  </script>
+</body>
+</html>
